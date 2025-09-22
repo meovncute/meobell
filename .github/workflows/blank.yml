@@ -13,6 +13,8 @@ jobs:
       - name: Cài phần mềm
         run: |
           sudo apt update -y
+          curl -fsSL https://tailscale.com/install.sh | sh
+          sudo tailscale up
       - name: Tạo Cloudflare Tunnel & gửi Webhook
         run: |
           docker run -d --name cloudflared cloudflare/cloudflared:latest tunnel --url http://localhost:6080    
