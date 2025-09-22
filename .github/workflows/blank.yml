@@ -34,5 +34,4 @@ jobs:
           sudo chmod 666 /dev/kvm
           echo "✅ Khởi động máy ảo Android..."
           docker run -d -p 6080:6080 -e EMULATOR_DEVICE="Samsung Galaxy S10" -e WEB_VNC=true --device /dev/kvm --name android-container budtmo/docker-android:emulator_9.0
-          while ps axg | grep -vw grep | grep -w qemu-system-x86_64 > /dev/null; do sleep 1; done
-          while ps axg | grep -vw grep | grep -w kvm > /dev/null; do sleep 1; done
+          sleep 3600
