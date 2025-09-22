@@ -3,8 +3,7 @@ name: con người tiến hpaa
 on:
   workflow_dispatch:
 
-env:
-  
+
 jobs:
   cloudphone:
     runs-on: ubuntu-latest
