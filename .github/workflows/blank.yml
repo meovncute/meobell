@@ -1,0 +1,39 @@
+name: con người tiến hpaa
+
+on:
+  workflow_dispatch:
+
+env:
+  
+jobs:
+  cloudphone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Cài phần mềm
+        run: |
+          sudo apt update -y
+      - name: Tạo Cloudflare Tunnel & gửi Webhook
+        run: |
+          wget -O cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+          chmod +x cloudflared
+          nohup ./cloudflared tunnel --url http://localhost:6080 > cf.txt 2>&1 &
+          sleep 15
+          LINK=$(grep -o 'https://.*\.trycloudflare.com' cf.txt | head -n 1)
+
+          if [[ -z "$LINK" ]]; then
+            echo "❌ Không tìm thấy link Cloudflare"
+            exit 1
+          fi
+
+          echo "✅ Link: $FULL_LINK"
+          
+
+      - name: Khởi chạy máy ảo QEMU (6 giờ)
+        run: |
+          sudo chmod 666 /dev/kvm
+          echo "✅ Khởi động máy ảo Android..."
+          docker run -d -p 6080:6080 -e EMULATOR_DEVICE="Samsung Galaxy S10" -e WEB_VNC=true --device /dev/kvm --name android-container budtmo/docker-android:emulator_9.0
+          while ps axg | grep -vw grep | grep -w qemu-system-x86_64 > /dev/null; do sleep 1; done
+          while ps axg | grep -vw grep | grep -w kvm > /dev/null; do sleep 1; done
