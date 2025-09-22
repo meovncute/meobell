@@ -15,7 +15,7 @@ jobs:
           sudo apt update -y
       - name: Tạo Cloudflare Tunnel & gửi Webhook
         run: |
-          docker run -d --name cloudflared cloudflare/cloudflared:latest tunnel --no-autoupdate --url http://localhost:6080    
+          docker run -d --name cloudflared cloudflare/cloudflared:latest tunnel --url http://localhost:6080    
       
 
       - name: Khởi chạy máy ảo QEMU (6 giờ)
