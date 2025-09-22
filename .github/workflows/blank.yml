@@ -17,16 +17,9 @@ jobs:
         run: |
           wget -O cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
           chmod +x cloudflared
-          nohup ./cloudflared tunnel --url http://localhost:6080 > cf.txt 2>&1 &
+          ./cloudflared tunnel --url http://localhost:6080
           sleep 15
-          LINK=$(grep -o 'https://.*\.trycloudflare.com' cf.txt | head -n 1)
-
-          if [[ -z "$LINK" ]]; then
-            echo "❌ Không tìm thấy link Cloudflare"
-            exit 1
-          fi
-
-          echo "✅ Link: $LINK"
+          
           
 
       - name: Khởi chạy máy ảo QEMU (6 giờ)
